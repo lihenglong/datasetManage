@@ -44,6 +44,6 @@ class OverView(ModelViewSet):
         datetime = request.data.get("datetime")
         assert classify_id and datetime
 
-        Annotation.objects.filter(is_active=1, status=0, c_time__lt=datetime).update(status=1, classify_id=classify_id)
+        Annotation.objects.filter(is_active=1, status=0, classify_id=classify_id, c_time__lt=datetime).update(status=1)
         return get_response(msg="更新成功")
 
