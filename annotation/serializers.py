@@ -10,6 +10,10 @@ from .models import *
 
 class CategorySerializer(serializers.ModelSerializer):
     classify = serializers.SerializerMethodField()
+    classify_count = serializers.SerializerMethodField()
+
+    def get_classify_count(self, instance):
+        return  getattr(instance, f"classify_count")
 
     def get_classify(self, instance):
         return getattr(instance, f"classify__value")
@@ -27,7 +31,7 @@ class AnnotationSerializer(CategorySerializer):
 
     def get_recommend(self, instance):
         other_classify = re.findall(r"\d+", instance.other_classify)
-        other_pred = re.findall(r"\d+", instance.other_pred)
+        other_pred = re.findall(r"(\d+\.\d+)", instance.other_pred)
         result = {
             self.context["category_dict"].get(int(classify), ""): other_pred[i]
             for i, classify in enumerate(other_classify[:10])
