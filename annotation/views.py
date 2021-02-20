@@ -1,3 +1,5 @@
+from django.db.models import Count
+
 from annotation.filters import AnnotationFilter
 from annotation.models import Annotation
 from annotation.serializers import AnnotationSerializer, CategorySerializer
@@ -32,8 +34,9 @@ class ImageView(ModelViewSet):
 class CategoryView(ModelViewSet):
     http_method_names = ["get"]
     serializer_class = CategorySerializer
-    queryset = Annotation.objects.filter(is_active=1, status=0) \
-        .values_list("classify_id", "classify__value", named=1)
+    queryset = Annotation.objects.filter(is_active=1, status=0).values_list("classify_id") \
+        .annotate(classify_count=Count("classify_id")) \
+        .values_list("classify_id", "classify__value", "classify_count", named=1).order_by("-classify_count")
 
 
 class OverView(ModelViewSet):
@@ -46,4 +49,3 @@ class OverView(ModelViewSet):
 
         Annotation.objects.filter(is_active=1, status=0, classify_id=classify_id, c_time__lt=datetime).update(status=1)
         return get_response(msg="更新成功")
-

@@ -17,7 +17,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Annotation
         fields = [
-            "classify_id", "classify"
+            "classify_id", "classify", "classify_count"
         ]
 
 
