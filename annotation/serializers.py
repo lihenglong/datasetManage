@@ -26,7 +26,13 @@ class AnnotationSerializer(CategorySerializer):
     recommend = serializers.SerializerMethodField()
 
     def get_recommend(self, instance):
-        return [self.context["category_dict"].get(int(i), "") for i in re.findall(r"\d+", instance.top_num)[:10]]
+        other_classify = re.findall(r"\d+", instance.other_classify)
+        other_pred = re.findall(r"\d+", instance.other_pred)
+        result = {
+            self.context["category_dict"].get(int(classify), ""): other_pred[i]
+            for i, classify in enumerate(other_classify[:10])
+        }
+        return result
 
     def get_src(self, instance):
         return getattr(instance, f"img__{LOCAL_OR_OSS}")
@@ -34,5 +40,5 @@ class AnnotationSerializer(CategorySerializer):
     class Meta:
         model = Annotation
         fields = [
-            "id", "src", "classify_id", "classify", "recommend"
+            "id", "src", "classify_id", "classify", "recommend", "pred"
         ]

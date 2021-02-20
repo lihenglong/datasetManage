@@ -9,7 +9,10 @@ from utils.viewset import ModelViewSet
 class ImageView(ModelViewSet):
     http_method_names = ["get", "patch"]
     queryset = Annotation.objects.filter(is_active=1, status=0) \
-        .values_list(f"img__{LOCAL_OR_OSS}", "classify__value", "top_num", "classify_id", "id", named=1)
+        .values_list(
+        f"img__{LOCAL_OR_OSS}", "classify__value", "other_classify", "classify_id",
+        "id", "pred", "other_pred", named=1
+    )
     serializer_class = AnnotationSerializer
     filter_class = BookFilter
     updated_files = {"classify_id"}
