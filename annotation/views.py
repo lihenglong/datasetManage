@@ -1,8 +1,9 @@
-from annotation.filters import BookFilter
+from annotation.filters import AnnotationFilter
 from annotation.models import Annotation
 from annotation.serializers import AnnotationSerializer, CategorySerializer
 from datasetManage.settings import LOCAL_OR_OSS
 from image.models import Category
+from utils.utils import get_response
 from utils.viewset import ModelViewSet
 
 
@@ -14,7 +15,7 @@ class ImageView(ModelViewSet):
         "id", "pred", "other_pred", named=1
     )
     serializer_class = AnnotationSerializer
-    filter_class = BookFilter
+    filter_class = AnnotationFilter
     updated_files = {"classify_id"}
 
     def get_serializer_context(self):
@@ -33,3 +34,16 @@ class CategoryView(ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Annotation.objects.filter(is_active=1, status=0) \
         .values_list("classify_id", "classify__value", named=1)
+
+
+class OverView(ModelViewSet):
+    http_method_names = ["post"]
+
+    def create(self, request, *args, **kwargs):
+        classify_id = request.data.get("classify_id")
+        datetime = request.data.get("datetime")
+        assert classify_id and datetime
+
+        Annotation.objects.filter(is_active=1, status=0, c_time__lt=datetime).update(status=1, classify_id=classify_id)
+        return get_response(msg="更新成功")
+

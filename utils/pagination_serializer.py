@@ -2,16 +2,14 @@
 from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 
+from utils.utils import get_response
+
 
 class CustomPaginationSerializer(LimitOffsetPagination):
     def get_paginated_response(self, data):
-        return Response({
-            "success": True,
-            "msg": "数据获取成功",
-            "data": {
-                "count": self.count,
-                "results": data
-            }
+        return get_response({
+            "count": self.count,
+            "results": data
         })
 
 
