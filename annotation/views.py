@@ -7,16 +7,22 @@ from utils.viewset import ModelViewSet
 
 
 class ImageView(ModelViewSet):
-    http_method_names = ["get"]
+    http_method_names = ["get", "patch"]
     queryset = Annotation.objects.filter(is_active=1, status=0) \
-        .values_list(f"img__{LOCAL_OR_OSS}", "classify__value", "top_num", "classify_id", named=1)
+        .values_list(f"img__{LOCAL_OR_OSS}", "classify__value", "top_num", "classify_id", "id", named=1)
     serializer_class = AnnotationSerializer
     filter_class = BookFilter
+    updated_files = {"classify_id"}
 
     def get_serializer_context(self):
         result = super(ImageView, self).get_serializer_context()
         result["category_dict"] = dict(Category.objects.filter(is_active=1).values_list("id", "value"))
         return result
+
+    def update(self, request, *args, **kwargs):
+        Annotation.objects.filter(id=kwargs["pk"]).update(
+            **{k: request.data[k] for k in set(request.data) & self.updated_files})
+        return self.retrieve(request, *args, **kwargs)
 
 
 class CategoryView(ModelViewSet):

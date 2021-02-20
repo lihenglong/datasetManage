@@ -133,6 +133,8 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.BasicAuthentication',
     ),
     'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination_serializer.CustomPaginationSerializer',
+    'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 

@@ -34,5 +34,5 @@ class AnnotationSerializer(CategorySerializer):
     class Meta:
         model = Annotation
         fields = [
-            "src", "classify", "recommend"
+            "id", "src", "classify_id", "classify", "recommend"
         ]
