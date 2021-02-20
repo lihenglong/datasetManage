@@ -6,7 +6,7 @@ from .models import *
 
 class AnnotationFilter(filters.FilterSet):
     classify_id = filters.NumberFilter(label="类别", field_name="classify_id")
-    datetime = filters.DateTimeFilter(field_name="c_time", lookup_expr="lt")
+    c_time = filters.DateTimeFilter(field_name="c_time", lookup_expr="lt")
 
     class Meta:
         model = Annotation
