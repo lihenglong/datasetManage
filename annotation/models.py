@@ -22,3 +22,4 @@ class Annotation(TimeModel, IsActiveModel):
 
     class Meta:
         verbose_name = "标注表"
+        unique_together = ("classify", "img")

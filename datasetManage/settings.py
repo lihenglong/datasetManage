@@ -135,10 +135,26 @@ REST_FRAMEWORK = {
     ),
     'PAGE_SIZE': 10,
     'DEFAULT_PAGINATION_CLASS': 'utils.pagination_serializer.CustomPaginationSerializer',
+    'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 LOCAL_OR_OSS = "local_path"
+model_path = ""
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://3620c1c08d0e4846a375041036e41267@o516275.ingest.sentry.io/5646908",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
 
 try:
     from .settings_local import *
@@ -149,6 +165,6 @@ try:
         INSTALLED_APPS += settings_local.CUSTOM_INSTALLED_APPS
     if hasattr(settings_local, 'CUSTOM_MIDDLEWARE_CLASSES'):
         MIDDLEWARE += settings_local.CUSTOM_MIDDLEWARE_CLASSES
-except ImportError:
-    pass
-
+except ImportError as e:
+    # pass
+    raise e

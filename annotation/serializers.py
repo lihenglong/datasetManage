@@ -32,10 +32,14 @@ class AnnotationSerializer(CategorySerializer):
     def get_recommend(self, instance):
         other_classify = re.findall(r"\d+", instance.other_classify)
         other_pred = re.findall(r"(\d+\.\d+)", instance.other_pred)
-        result = {
-            self.context["category_dict"].get(int(classify), ""): other_pred[i]
+        result = [
+            {
+                "id": int(classify),
+                "value": self.context["category_dict"].get(int(classify), ""),
+                "pred": other_pred[i]
+            }
             for i, classify in enumerate(other_classify[:10])
-        }
+        ]
         return result
 
     def get_src(self, instance):
