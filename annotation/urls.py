@@ -8,6 +8,7 @@ from . import views
 
 router = SimpleRouter()
 router.register(r"image", views.ImageView, basename="image")
+router.register(r"category/all", views.CategoryAllView, basename="category/all")
 router.register(r"category", views.CategoryView, basename="category")
 router.register(r"over", views.OverView, basename="over")
 
