@@ -85,6 +85,7 @@ class Command(BaseCommand):
 
             # 获取前一百的识别结果
             for index, one_pred in enumerate(predictions):
+                print(f"\r {i + index + 1}", end="")
 
                 local_path = img_path[index]
                 try:

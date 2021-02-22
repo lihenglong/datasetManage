@@ -15,7 +15,7 @@ class ImageView(ModelViewSet):
         .values_list(
         f"img__{LOCAL_OR_OSS}", "classify__value", "other_classify", "classify_id",
         "id", "pred", "other_pred", named=1
-    )
+    ).order_by("pred")
     serializer_class = AnnotationSerializer
     filter_class = AnnotationFilter
     updated_files = {"classify_id"}

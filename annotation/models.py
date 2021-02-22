@@ -14,7 +14,7 @@ class Annotation(TimeModel, IsActiveModel):
     other_classify = models.CharField("top2-n的分类", max_length=511, default="")
 
     # 5位小数
-    pred = models.CharField("top1的置信度", max_length=31, default="")
+    pred = models.CharField("top1的置信度", max_length=31, default="", db_index=True)
     other_pred = models.CharField("top2-n的置信度", max_length=1023, default="")
 
     # 0 待审核， 1 已审核
