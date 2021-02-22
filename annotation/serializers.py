@@ -13,7 +13,7 @@ class CategorySerializer(serializers.ModelSerializer):
     classify_count = serializers.SerializerMethodField()
 
     def get_classify_count(self, instance):
-        return  getattr(instance, f"classify_count")
+        return getattr(instance, f"classify_count")
 
     def get_classify(self, instance):
         return getattr(instance, f"classify__value")
@@ -45,4 +45,12 @@ class AnnotationSerializer(CategorySerializer):
         model = Annotation
         fields = [
             "id", "src", "classify_id", "classify", "recommend", "pred"
+        ]
+
+
+class CategoryAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = [
+            "id", "value"
         ]

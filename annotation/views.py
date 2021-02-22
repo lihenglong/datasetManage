@@ -2,7 +2,7 @@ from django.db.models import Count
 
 from annotation.filters import AnnotationFilter
 from annotation.models import Annotation
-from annotation.serializers import AnnotationSerializer, CategorySerializer
+from annotation.serializers import AnnotationSerializer, CategorySerializer, CategoryAllSerializer
 from datasetManage.settings import LOCAL_OR_OSS
 from image.models import Category
 from utils.utils import get_response
@@ -37,6 +37,12 @@ class CategoryView(ModelViewSet):
     queryset = Annotation.objects.filter(is_active=1, status=0).values_list("classify_id") \
         .annotate(classify_count=Count("classify_id")) \
         .values_list("classify_id", "classify__value", "classify_count", named=1).order_by("-classify_count")
+
+
+class CategoryAllView(ModelViewSet):
+    http_method_names = ["get"]
+    serializer_class = CategoryAllSerializer
+    queryset = Category.objects.filter(is_active=1)
 
 
 class OverView(ModelViewSet):
