@@ -54,7 +54,7 @@ class Command(BaseCommand):
         path = "/home/dd/Share/dataset_pool/imgs"
         for root, _, files in os.walk(path):
             for file in files:
-                if file.rsplit("/", 1)[1] in self.img_suffix:
+                if "." in file and file.rsplit(".", 1)[1] in self.img_suffix:
                     result[os.path.join(root, file)] = "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3952160391,2864289195&fm=26&gp=0.jpg"
         return result
 
@@ -115,7 +115,7 @@ class Command(BaseCommand):
                             other_classify=other_classify, other_pred=other_pred
                         )
                 except Exception as e:
-                    raise e
+                    # raise e
                     # print(e)
                     # capture_exception(e)
                     continue
