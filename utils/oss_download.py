@@ -16,7 +16,7 @@ accesskey_secret = "FVFxlJ7dTXXwnlGDpLBxJztwJ7a2pK"
 bucket_name = "dd-eco-ai-picture"
 
 # 本地文件保存路径前缀
-download_local_save_prefix = "/home/dd/Share/dataset_pool/imgs"
+download_local_save_prefix = "/home/dd/Share/dataset_pool/imgs/dd-eco-ai-picture/"
 
 '''
 列举prefix全部文件
