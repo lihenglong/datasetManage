@@ -15,6 +15,8 @@ from datasetManage.settings import model_path
 from image.models import Category, Image
 from sentry_sdk import capture_exception
 
+from utils.oss_download import file_path_dict
+
 np.set_printoptions(suppress=True)
 
 
@@ -59,7 +61,8 @@ class Command(BaseCommand):
         return result
 
     def handle(self, *args, **options):
-        path_dict = self._get_img_dict()
+        path_dict = file_path_dict()
+        # path_dict = self._get_img_dict()
         # path_dict = {
         #     "/Users/guo/Documents/data/image/数据集/四分类数据集/厨余垃圾_鹌鹑蛋/img_鹌鹑蛋_1.jpeg": "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3952160391,2864289195&fm=26&gp=0.jpg",
         #     "/Users/guo/Documents/data/image/数据集/四分类数据集/厨余垃圾_鹌鹑蛋/img_鹌鹑蛋_2.jpeg": "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3952160391,2864289195&fm=26&gp=0.jpg",
